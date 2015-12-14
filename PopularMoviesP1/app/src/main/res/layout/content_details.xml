@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.simplyrishta.popularmoviesp1.DetailsActivity"
+    tools:showIn="@layout/activity_details">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="top|left"
+        android:background="#f6dada"
+        android:layout_below="@+id/yearTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="2015"
+        android:textSize="15dp"
+        android:id="@+id/yearTextView"
+        android:layout_gravity="right|top"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/ratingTextView"
+        android:layout_alignEnd="@+id/ratingTextView"
+        android:textColor="#fc0d0d" />
+
+    <TextView
+        android:layout_width="86dp"
+        android:layout_height="81dp"
+        android:text="New Text"
+        android:id="@+id/ratingTextView"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="top"
+        android:layout_above="@+id/descriptionTextView"
+        android:layout_marginBottom="37dp"
+        android:layout_alignRight="@+id/descriptionTextView"
+        android:layout_alignEnd="@+id/descriptionTextView"
+        android:textColor="#f70303" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/titleTextView"
+        android:textSize="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/ratingTextView"
+        android:background="#f7e2e2" />
+
+    <TextView
+        android:layout_width="337dp"
+        android:layout_height="96dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/descriptionTextView"
+        android:layout_gravity="center"
+        android:background="#f1f6cf"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="136dp"
+        android:scrollIndicators="bottom|start|end"
+        android:textColor="#ff0808" />
+
+</RelativeLayout>
