@@ -6,4 +6,5 @@
 .DS_Store
 /build/*
 /build
+/app/build
 /captures
