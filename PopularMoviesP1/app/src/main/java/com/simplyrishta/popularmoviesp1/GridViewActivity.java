@@ -272,15 +272,6 @@ public class GridViewActivity extends ActionBarActivity {
                     if (post.get("release_date")!=null) {
                         item.setReleaseDate((String) post.get("release_date"));
                     }
-                    //Integer id = (Integer) post.get("id");
-
-
-                /*JSONArray attachments = post.getJSONArray("fartttachments");
-                if (null != attachments && attachments.length() > 0) {
-                    JSONObject attachment = attachments.getJSONObject(0);
-                    if (attachment != null)
-                        item.setImage(attachment.getString("url"));
-                }*/
                     mGridData.add(item);
                 }catch (Exception e) {
                     e.printStackTrace();
