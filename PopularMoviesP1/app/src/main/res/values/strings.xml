@@ -9,4 +9,32 @@
     <string name="action_refresh">Refresh</string>
     <string name="title_activity_grid_view">GridViewActivity</string>
     <string name="title_activity_details">DetailsActivity</string>
+
+    <string name="ORIGINAL_TITLE">original_title</string>
+    <string name="IMAGE">image</string>
+    <string name="OVERVIEW">overview</string>
+    <string name="RATING">rating</string>
+    <string name="RELEASE_DATE">release_date</string>
+    <string name="popularity">popularity</string>
+    <string name="ratings">ratings</string>
+    <string name="vote_average">vote_average</string>
+
+    <string name="POPULARITY_DESC">popularity.desc</string>
+    <string name="POPULARITY_ASC">popularity.asc</string>
+    <string name="VOTE_AVG_DESC">vote_average.desc</string>
+    <string name="VOTE_AVG_ASC">vote_average.asc</string>
+    <string name="SORT_BY">sort_by</string>
+    <string name="API_KEY">api_key</string>
+    <string name="MOVIE_ID">id</string>
+    <string name="POSTER_PATH">poster_path</string>
+
+    <string name="RESULTS">results</string>
+    <string name="MOVIEDB_IMAGE_API_URL">http://image.tmdb.org/t/p/</string>
+    <string name="MOVIEDB_API_KEY"></string>
+
+    <string name="MOVIE_DB_URL">http://api.themoviedb.org/</string>
+    <string name="MOVIEDB_DISCOVER_ENDPOINT">3/discover/movie</string>
+
+    <string name="THUMBNAIL_185">w185/</string>
+
 </resources>

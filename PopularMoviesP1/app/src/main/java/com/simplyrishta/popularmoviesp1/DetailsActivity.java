@@ -13,23 +13,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class DetailsActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_details);
         Bundle bundle = getIntent().getExtras();
-        String title = bundle.getString("title");
 
+        String title = bundle.getString(getString(R.string.ORIGINAL_TITLE));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
 
 
-        String image = bundle.getString("image");
-        String overview = bundle.getString("overview");
-        Number rating = (Number)bundle.get("rating");
-        String releaseDate = bundle.getString("relDate");
+        String image = bundle.getString(getString(R.string.IMAGE));
+        String overview = bundle.getString(getString(R.string.OVERVIEW));
+        Number rating = (Number)bundle.get(getString(R.string.RATING));
+        String releaseDate = bundle.getString(getString(R.string.RELEASE_DATE));
 
         Log.d(this.getClass().getSimpleName(), "Information: " + title.concat("\ndate: " + releaseDate  + "\n").concat("" + rating));
 
@@ -43,7 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView  ratingTv = (TextView) findViewById(R.id.ratingTextView);
         ratingTv.setText(""+rating+"/10");
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat ( "yyyy-mm-dd" );
+        SimpleDateFormat dateFormatter = new SimpleDateFormat ("yyyy-mm-dd" );
         java.util.Date dateObject;
 
         try {
@@ -55,15 +54,6 @@ public class DetailsActivity extends AppCompatActivity {
         }catch(Exception e) {
             Log.d( "Exception parsing: ",e.getStackTrace().toString());
         }
-
-
-
-//        }catch (Exception e) {
-//            Log.d( "Exception parsing: ",e.getStackTrace().toString());
-//        };
-
-
-
 
     }
 
