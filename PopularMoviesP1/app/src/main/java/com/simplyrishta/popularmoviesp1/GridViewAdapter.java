@@ -6,6 +6,7 @@ package com.simplyrishta.popularmoviesp1;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
      */
     public void setGridData(ArrayList<GridItem> mGridData) {
         this.mGridData = mGridData;
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     @Override
@@ -56,9 +57,17 @@ public class GridViewAdapter extends ArrayAdapter<GridItem> {
             holder = (ViewHolder) row.getTag();
         }
 
-        GridItem item = mGridData.get(position);
-        holder.titleTextView.setText(Html.fromHtml(item.getTitle()));
-        Picasso.with(mContext).load(item.getImage()).into(holder.imageView);
+        int indexOffset = -1;
+        GridItem item;
+        try {
+            item = mGridData.get(position);
+            holder.titleTextView.setText(Html.fromHtml(item.getTitle()));
+            Picasso.with(mContext).load(item.getImage()).into(holder.imageView);
+        }
+        catch (IndexOutOfBoundsException e) {
+            Log.d("GridViewAdapter:","Exception trying to load a grid item that has index beyond what is available");
+
+        }
         return row;
     }
 
