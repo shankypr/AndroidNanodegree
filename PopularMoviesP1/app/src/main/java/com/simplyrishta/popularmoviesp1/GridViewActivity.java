@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GridViewActivity extends ActionBarActivity {
     //public static final String MOVIEDB_IMAGE_API_URL= "http://image.tmdb.org/t/p/";
@@ -42,6 +43,9 @@ public class GridViewActivity extends ActionBarActivity {
     private Toolbar mToolBar;
     private Menu menu;
 
+    private ArrayList<GridItem> moviesOffScreen = new ArrayList<>();
+    private boolean isMainMoviesVisible = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +55,7 @@ public class GridViewActivity extends ActionBarActivity {
         mToolBar.setTitle("Sort by: "+getString(R.string.popularity));
         setActionBar(mToolBar);
 
-
         mGridView = (GridView) findViewById(R.id.gridView);
-        //mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         //Initialize with empty data
         mGridData = new ArrayList<>();
@@ -78,8 +80,9 @@ public class GridViewActivity extends ActionBarActivity {
                         putExtra(getString(R.string.IMAGE), item.getImage()).
                         putExtra(getString(R.string.OVERVIEW), item.getOverview()).
                         putExtra(getString(R.string.RATING), item.getRating()).
-                        putExtra(getString(R.string.RELEASE_DATE), item.getReleaseDate())
-                ;
+                        putExtra(getString(R.string.RELEASE_DATE), item.getReleaseDate());
+
+                intent.putExtra(getString(R.string.grid_item),item);
                 startActivity(intent);
             }
         });
@@ -112,29 +115,65 @@ public class GridViewActivity extends ActionBarActivity {
 
     @Override
         public boolean onOptionsItemSelected(MenuItem item) {
-        MenuItem ratingsItem  = menu.findItem(R.id.sort_ratings);
-        MenuItem popItem = menu.findItem(R.id.sort_popularity);
+            MenuItem ratingsItem  = menu.findItem(R.id.sort_ratings);
+            MenuItem popItem = menu.findItem(R.id.sort_popularity);
+            MenuItem favItem = menu.findItem(R.id.sort_favorties);
 
-        //Log.d(this.getClass().getSimpleName(),"onOptionsItemsSelectedMenu: "+item.getTitle());
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.sort_popularity) {
-            asyncHttpTask = new AsyncHttpTask();
-            asyncHttpTask.execute(getString(R.string.popularity));
-            popItem.setEnabled(false);
-            ratingsItem.setEnabled(true);
-            mToolBar.setTitle("Sort by: "+getString(R.string.popularity));
+            //Log.d(this.getClass().getSimpleName(),"onOptionsItemsSelectedMenu: "+item.getTitle());
+            int id = item.getItemId();
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.sort_popularity) {
+                if(isMainMoviesVisible == false) {
+                    mGridData.clear();
+                    mGridData.addAll(moviesOffScreen);
+                    mGridAdapter.notifyDataSetChanged();
+                    isMainMoviesVisible = true;
+                    return true;
+                }
+                asyncHttpTask = new AsyncHttpTask();
+                asyncHttpTask.execute(getString(R.string.popularity));
+                popItem.setEnabled(false);
+                ratingsItem.setEnabled(true);
+                favItem.setEnabled(true);
+                mToolBar.setTitle("Sort by: "+getString(R.string.popularity));
+                return true;
+            }
+            else if (id == R.id.sort_ratings) {
+                if(isMainMoviesVisible == false) {
+                    mGridData.clear();
+                    mGridData.addAll(moviesOffScreen);
+                    mGridAdapter.notifyDataSetChanged();
+                    isMainMoviesVisible = true;
+                    return true;
+                }
+                asyncHttpTask = new AsyncHttpTask();
+                asyncHttpTask.execute(getString(R.string.ratings));
+                popItem.setEnabled(true);
+                favItem.setEnabled(true);
+                ratingsItem.setEnabled(false);
+                mToolBar.setTitle("Sort by: " + getString(R.string.ratings));
+                return true;
+            }
+            else if (id== R.id.sort_favorties) {
+
+                MovieStorageHelper helper = new MovieStorageHelper(this);
+                List<GridItem> items = helper.getAllItems();
+                ArrayList<GridItem> list = new ArrayList(items);
+
+                Log.d("FavItem COunt: ", "" + list.size());
+                popItem.setEnabled(true);
+                ratingsItem.setEnabled(true);
+                favItem.setEnabled(false);
+
+                moviesOffScreen.clear();
+                moviesOffScreen.addAll(mGridData);
+                mGridData.clear();
+                mGridData.addAll(list);
+                mGridAdapter.notifyDataSetChanged();
+                isMainMoviesVisible=false;
+                mToolBar.setTitle("Showing " + getString(R.string.favorites));
+            }
             return true;
-        }
-        else if (id == R.id.sort_ratings) {
-            asyncHttpTask = new AsyncHttpTask();
-            asyncHttpTask.execute(getString(R.string.ratings));
-            popItem.setEnabled(true);
-            ratingsItem.setEnabled(false);
-            mToolBar.setTitle("Sort by: " + getString(R.string.ratings));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -216,7 +255,7 @@ public class GridViewActivity extends ActionBarActivity {
     }
 
     String streamToString(InputStream stream) throws IOException {
-        Log.d("null","inn streamToString");
+        //Log.d("null","inn streamToString");
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
         String line;
@@ -239,7 +278,7 @@ public class GridViewActivity extends ActionBarActivity {
     private void parseResult(String result) {
         mGridData.clear();
         try {
-            Log.d("In parseResult",""+result);
+            //Log.d("In parseResult",""+result);
 
             JSONObject response = new JSONObject(result);
             JSONArray results = response.optJSONArray(getString(R.string.RESULTS));

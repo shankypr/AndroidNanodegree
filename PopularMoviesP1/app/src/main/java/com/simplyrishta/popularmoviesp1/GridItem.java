@@ -1,9 +1,11 @@
 package com.simplyrishta.popularmoviesp1;
 
+import java.io.Serializable;
+
 /**
  * Created by shankypr on 12/10/15.
  */
-public class GridItem {
+public class GridItem implements Serializable {
     private Integer id;
     private String image;
     private String title;

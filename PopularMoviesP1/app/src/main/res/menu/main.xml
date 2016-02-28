@@ -19,4 +19,11 @@
         android:title="Sort by Ratings"
         android:checked="true"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/sort_favorties"
+        android:orderInCategory="1"
+        android:title="Favorite Movies"
+        android:checked="true"
+        app:showAsAction="never" />
 </menu>
